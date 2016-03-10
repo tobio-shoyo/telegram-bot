@@ -90,7 +90,7 @@ $ {"ok":true,"result":true,"description":"Webhook was set"}
 
 ### Testing via Telegram
 1. Message your Telegram Bot that you have created.
-2. Type in "/haze" (without the quotes) in any Slack channel.
+2. Type in "/haze" (without the quotes).
 3. You should get back a nicely formatting response as shown in the first screenshot.
 
 ## Commands
