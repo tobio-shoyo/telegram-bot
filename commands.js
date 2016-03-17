@@ -196,7 +196,7 @@ module.exports = {
   },
 
   /**
-   * Weather (3 hour Forecast)
+   * Weather (2 hour Forecast)
    *
    * @return {object} Request promise
    */
@@ -220,13 +220,7 @@ module.exports = {
 
       return helper.formatMessage(
         'Singapore Weather Conditions',
-        '3 hour Forecast. ' + helper.ucWords(
-          body.item.issue_datentime
-            .replace('<br><font size=1>', '. ')
-            .toLowerCase()
-        ).replace(/am|pm|at|to|on/gi, function lower(str) {
-          return str.toLowerCase();
-        }) + '.',
+        '2 hour Forecast. ' + body.item.validTime + '.',
         fields);
     });
   },
