@@ -19,8 +19,8 @@ I am choosing Asia Pacific (Tokyo) region for AWS Lambda and Asia Pacific (Singa
 ### Checkout Code
 ```
 $ git clone https://github.com/lesterchan/telegram-bot.git  
-$ npm install --production  
 $ cd telegram-bot  
+$ npm install --production
 $ cp token.sample.js token.js
 ```
 Open up ```token.js``` and fill in your Telegram HTTP API access token obtained in the first step then run this command:
