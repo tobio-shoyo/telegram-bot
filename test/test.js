@@ -16,7 +16,7 @@ var context = {
   succeed: function() {}
 };
 
-describe('slack-bot', function() {
+describe('telegram-bot', function() {
   this.timeout(5000);
 
   it('Should list down all buses arrival timing at the bus stop', function(done) {
