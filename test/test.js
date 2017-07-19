@@ -11,11 +11,6 @@ const expect = require('chai').expect;
 const lambda = require('../index');
 
 /**
- * Requires (Helper)
- */
-const helper = require('../helper');
-
-/**
  * Timeout
  */
 const timeout = 5000;

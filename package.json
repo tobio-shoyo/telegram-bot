@@ -2,6 +2,7 @@
   "name": "telegram-bot",
   "version": "1.0.0",
   "description": "Telegram Bot",
+  "license": "MIT",
   "author": "Lester Chan <lesterchan@gmail.com> (https://lesterchan.net)",
   "homepage": "https://lesterchan.net",
   "repository": {
@@ -9,7 +10,6 @@
     "url": "https://github.com/lesterchan/telegram-bot.git"
   },
   "main": "index.js",
-  "license": "MIT",
   "scripts": {
     "lint": "eslint *.js test/*.js",
     "test": "mocha"
