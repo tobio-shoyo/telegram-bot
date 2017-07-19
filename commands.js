@@ -260,7 +260,7 @@ module.exports = {
    * @return {object} Request promise
    */
   socialstats(commandArguments) {
-    const link = commandArguments[0] || 'https://www.techinasia.com';
+    const link = commandArguments[0] || 'https://lesterchan.net';
 
     return rp({
       uri: `${config.lesterchanApiUrl}/link/?page=${link}`,

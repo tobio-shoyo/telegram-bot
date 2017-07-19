@@ -28,7 +28,7 @@ const context = {
   succeed() {},
 };
 
-describe('techinasia-telegram-bot', () => {
+describe('lesterchan-telegram-bot', () => {
   it('Should list down all buses arrival timing at the bus stop', (done) => {
     const output = lambda.handler({
       body: {
