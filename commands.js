@@ -1,13 +1,13 @@
+'use strict';
+
 /**
  * Requires
  */
-var Promise = require('bluebird');
-var rp = require('request-promise');
-var moment = require('moment');
-var ip = require('ip');
+const rp = require('request-promise');
+const moment = require('moment');
 
-var config = require('./config');
-var helper = require('./helper');
+const config = require('./config');
+const helper = require('./helper');
 
 /**
  * Commands
@@ -20,8 +20,8 @@ module.exports = {
    *
    * @return {object} Rejected Request Promise
    */
-  error: function(error) {
-    return Promise.reject(new Error(error.message));
+  error(error) {
+    return Promise.reject(new Error(error));
   },
 
   /**
@@ -31,95 +31,92 @@ module.exports = {
    *
    * @return {object} Request promise
    */
-  bus: function(commandArguments) {
-    var busStopNo = commandArguments[0];
-    var busNo = commandArguments[1] || '';
-    var busQuery = busStopNo;
+  bus(commandArguments) {
+    const busStopNo = commandArguments[0];
+    const busNo = commandArguments[1] || '';
+    let busQuery = busStopNo;
 
     if (busNo !== '') {
-      busQuery += '/' + busNo;
+      busQuery += `/${busNo}`;
     }
 
     return rp({
-      uri: config.lesterchanApiUrl + '/lta/bus-arrival/' + busQuery,
-      json: true
-    }).then(function(body) {
+      uri: `${config.lesterchanApiUrl}/lta/bus-arrival/${busQuery}`,
+      json: true,
+    }).then((body) => {
       if (body.Services && body.Services.length > 0) {
         // Fields
-        var fields = [];
-        body.Services.forEach(function(bus) {
+        const fields = [];
+        body.Services.forEach((bus) => {
           fields.push({
             title: 'Bus',
-            value: bus.ServiceNo
+            value: bus.ServiceNo,
           });
           fields.push({
             title: 'Status',
-            value: bus.Status
+            value: bus.Status,
           });
 
           // Bus Arrival Timings
           if (bus.Status !== 'Not In Operation') {
-            var nextBus = bus.NextBus;
-            var subBus = bus.SubsequentBus;
-            var followBus = bus.SubsequentBus3;
+            const nextBus = bus.NextBus;
+            const subBus = bus.SubsequentBus;
+            const followBus = bus.SubsequentBus3;
 
             if (nextBus.EstimatedArrival !== '') {
               fields.push({
                 title: 'Next Bus',
-                value: moment(nextBus.EstimatedArrival).fromNow() +
-                       ' (' + nextBus.Load + ')'
+                value: `${moment(nextBus.EstimatedArrival).fromNow()} (${nextBus.Load})`,
               });
             } else if (bus.Status === 'In Operation') {
               fields.push({
                 title: 'Next Bus',
-                value: 'No Estimate Available'
+                value: 'No Estimate Available',
               });
             } else {
               fields.push({
                 title: 'Next Bus',
-                value: 'Not Operating Now'
+                value: 'Not Operating Now',
               });
             }
 
             if (subBus.EstimatedArrival !== '') {
               fields.push({
                 title: 'Subsequent Bus',
-                value: moment(subBus.EstimatedArrival).fromNow() +
-                       ' (' + subBus.Load + ')'
+                value: `${moment(subBus.EstimatedArrival).fromNow()} (${subBus.Load})`,
               });
             } else if (bus.Status === 'In Operation') {
               fields.push({
                 title: 'Subsequent Bus',
-                value: 'No Estimate Available'
+                value: 'No Estimate Available',
               });
             } else {
               fields.push({
                 title: 'Subsequent Bus',
-                value: 'Not Operating Now'
+                value: 'Not Operating Now',
               });
             }
 
             if (followBus.EstimatedArrival !== '') {
               fields.push({
                 title: 'Following Bus',
-                value: moment(followBus.EstimatedArrival).fromNow() +
-                       ' (' + followBus.Load + ')'
+                value: `${moment(followBus.EstimatedArrival).fromNow()} (${followBus.Load})`,
               });
             } else if (bus.Status === 'In Operation') {
               fields.push({
                 title: 'Following Bus',
-                value: 'No Estimate Available'
+                value: 'No Estimate Available',
               });
             } else {
               fields.push({
                 title: 'Following Bus',
-                value: 'Not Operating Now'
+                value: 'Not Operating Now',
               });
             }
           }
         });
 
-        return helper.formatMessage('Bus Stop ' + body.BusStopID, '', fields);
+        return helper.formatMessage(`Bus Stop ${body.BusStopID}`, '', fields);
       }
 
       return 'Bus stop or number is invalid';
@@ -131,67 +128,50 @@ module.exports = {
    *
    * @return {object} Request promise
    */
-  haze: function() {
+  haze() {
     return rp({
-      uri: config.lesterchanApiUrl + '/nea/psipm25',
-      json: true
-    }).then(function(body) {
+      uri: `${config.lesterchanApiUrl}/nea/psipm25`,
+      json: true,
+    }).then((body) => {
       // Variables
-      var northPsi = parseInt(
-        body.item.region[0].record.reading['@attributes'].value, 10
-      );
-      var centralPsi = parseInt(
-        body.item.region[1].record.reading['@attributes'].value, 10
-      );
-      var eastPsi = parseInt(
-        body.item.region[2].record.reading['@attributes'].value, 10
-      );
-      var westPsi = parseInt(
-        body.item.region[3].record.reading['@attributes'].value, 10
-      );
-      var southPsi = parseInt(
-        body.item.region[4].record.reading['@attributes'].value, 10
-      );
-      var averagePsi = Math.ceil(
-        (northPsi + centralPsi + eastPsi + westPsi + southPsi) / 5
-      );
-      var timestamp = body.item.region[0].record['@attributes'].timestamp;
-      var niceDate = moment(timestamp, 'YYYYMMDDHHmmss');
+      const northPsi = parseInt(body.item.region[0].record.reading['@attributes'].value, 10);
+      const centralPsi = parseInt(body.item.region[1].record.reading['@attributes'].value, 10);
+      const eastPsi = parseInt(body.item.region[2].record.reading['@attributes'].value, 10);
+      const westPsi = parseInt(body.item.region[3].record.reading['@attributes'].value, 10);
+      const southPsi = parseInt(body.item.region[4].record.reading['@attributes'].value, 10);
+      const averagePsi = Math.ceil((northPsi + centralPsi + eastPsi + westPsi + southPsi) / 5);
+      const timestamp = body.item.region[0].record['@attributes'].timestamp;
+      const niceDate = moment(timestamp, 'YYYYMMDDHHmmss');
 
       // Fields
-      var fields = [
+      const fields = [
         {
           title: 'Average',
-          value: helper.getMessage(averagePsi)
+          value: helper.getMessage(averagePsi),
         },
         {
           title: 'Central',
-          value: helper.getMessage(centralPsi)
+          value: helper.getMessage(centralPsi),
         },
         {
           title: 'North',
-          value: helper.getMessage(northPsi)
+          value: helper.getMessage(northPsi),
         },
         {
           title: 'South',
-          value: helper.getMessage(southPsi)
+          value: helper.getMessage(southPsi),
         },
         {
           title: 'East',
-          value: helper.getMessage(eastPsi)
+          value: helper.getMessage(eastPsi),
         },
         {
           title: 'West',
-          value: helper.getMessage(westPsi)
-        }
+          value: helper.getMessage(westPsi),
+        },
       ];
 
-      return helper.formatMessage(
-        'Singapore Haze Conditions',
-        'PM2.5 Hourly Update. Last updated at ' +
-        niceDate.format(config.defaultDateTimeFormat) + '.',
-        fields
-      );
+      return helper.formatMessage('Singapore Haze Conditions', `PM2.5 Hourly Update. Last updated at ${niceDate.format(config.defaultDateTimeFormat)}.`, fields);
     });
   },
 
@@ -200,28 +180,23 @@ module.exports = {
    *
    * @return {object} Request promise
    */
-  weather: function() {
+  weather() {
     return rp({
-      uri: config.lesterchanApiUrl + '/nea/nowcast',
-      json: true
-    }).then(function(body) {
-      var fields = [];
+      uri: `${config.lesterchanApiUrl}/nea/nowcast`,
+      json: true,
+    }).then((body) => {
+      const fields = [];
       if (body.item.weatherForecast.area &&
-          body.item.weatherForecast.area.length > 0) {
-        body.item.weatherForecast.area.forEach(function(nowcast) {
-          fields.push(
-            {
-              title: helper.ucWords(nowcast['@attributes'].name),
-              value: helper.getMessage(nowcast['@attributes'].forecast)
-            }
-          );
+        body.item.weatherForecast.area.length > 0) {
+        body.item.weatherForecast.area.forEach((nowcast) => {
+          fields.push({
+            title: helper.ucWords(nowcast['@attributes'].name),
+            value: helper.getMessage(nowcast['@attributes'].forecast),
+          });
         });
       }
 
-      return helper.formatMessage(
-        'Singapore Weather Conditions',
-        '2 hour Forecast. ' + body.item.validTime + '.',
-        fields);
+      return helper.formatMessage('Singapore Weather Conditions', `2 hour Forecast. ${body.item.validTime}.`, fields);
     });
   },
 
@@ -232,47 +207,45 @@ module.exports = {
    *
    * @return {object} Request promise
    */
-  ipinfo: function(commandArguments) {
+  ipinfo(commandArguments) {
     // Variables
-    var ipRequest = commandArguments[0] || ip.address();
+    const ip = commandArguments[0] || '127.0.0.1';
 
     // Validate IP Address
-    try {
-      ip.toBuffer(ipRequest);
-    } catch (error) {
-      return this.error(error);
+    if (!helper.validateIp(ip)) {
+      return this.error('Invalid IP');
     }
 
     return rp({
-      uri: 'http://ipinfo.io/' + ipRequest + '/json',
-      json: true
-    }).then(function(body) {
+      uri: `http://ipinfo.io/${ip}/json`,
+      json: true,
+    }).then((body) => {
       // Fields
-      var fields = [
+      const fields = [
         {
           title: 'IP',
-          value: helper.getMessage(body.ip)
+          value: helper.getMessage(body.ip),
         },
         {
           title: 'Hostname',
-          value: helper.getMessage(body.hostname)
+          value: helper.getMessage(body.hostname),
         },
         {
           title: 'Country',
-          value: helper.getMessage(body.country)
+          value: helper.getMessage(body.country),
         },
         {
           title: 'City',
-          value: helper.getMessage(body.city)
+          value: helper.getMessage(body.city),
         },
         {
           title: 'Region',
-          value: helper.getMessage(body.region)
+          value: helper.getMessage(body.region),
         },
         {
           title: 'Organization',
-          value: helper.getMessage(body.org)
-        }
+          value: helper.getMessage(body.org),
+        },
       ];
 
       return helper.formatMessage('IP Information', body.ip, fields);
@@ -286,42 +259,42 @@ module.exports = {
    *
    * @return {object} Request promise
    */
-  socialstats: function(commandArguments) {
-    var link = commandArguments[0] || 'https://lesterchan.net';
+  socialstats(commandArguments) {
+    const link = commandArguments[0] || 'https://www.techinasia.com';
 
     return rp({
-      uri: config.lesterchanApiUrl + '/link/?page=' + link,
-      json: true
-    }).then(function(body) {
+      uri: `${config.lesterchanApiUrl}/link/?page=${link}`,
+      json: true,
+    }).then((body) => {
       // Fields
-      var fields = [
+      const fields = [
         {
           title: 'Total',
-          value: helper.formatNumber(body.total_count)
+          value: helper.formatNumber(body.total_count),
         },
         {
           title: 'Facebook',
-          value: helper.formatNumber(body.count.facebook)
+          value: helper.formatNumber(body.count.facebook),
         },
         {
           title: 'Twitter',
-          value: helper.formatNumber(body.count.twitter)
+          value: helper.formatNumber(body.count.twitter),
         },
         {
           title: 'Google+',
-          value: helper.formatNumber(body.count['google-plus'])
+          value: helper.formatNumber(body.count['google-plus']),
         },
         {
           title: 'LinkedIn',
-          value: helper.formatNumber(body.count.linkedin)
+          value: helper.formatNumber(body.count.linkedin),
         },
         {
           title: 'Pinterest',
-          value: helper.formatNumber(body.count.pinterest)
-        }
+          value: helper.formatNumber(body.count.pinterest),
+        },
       ];
 
       return helper.formatMessage('Link Social Stats', body.url, fields);
     });
-  }
+  },
 };

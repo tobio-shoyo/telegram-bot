@@ -1,70 +1,80 @@
+'use strict';
+
+/**
+ * Requires
+ */
+const moment = require('moment');
+
 /**
  * Helper
  */
 module.exports = {
-  ucWords: function(string) {
-    return string.replace(/\w\S*/g, function(str) {
-      return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
-    });
+  ucWords(string) {
+    return string.replace('/\w\S*/g', (str) => str.charAt(0).toUpperCase() + str.substr(1).toLowerCase()); // eslint-disable-line no-useless-escape
   },
-  formatNumber: function(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  formatNumber(x) {
+    return x.toString().replace('/\B(?=(\d{3})+(?!\d))/g', ','); // eslint-disable-line no-useless-escape
   },
-  formatBytes: function(bytes, decimals) {
-    bytes = parseInt(bytes, 10);
-    if (bytes === 0) {
+  formatBytes(bytes, decimals) {
+    const b = parseInt(bytes, 10);
+    if (b === 0) {
       return '0 Byte';
     }
-    var k = 1024;
-    var dm = decimals + 1 || 3;
-    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    var i = Math.floor(Math.log(bytes) / Math.log(k));
-    return (bytes / Math.pow(k, i)).toPrecision(dm) + ' ' + sizes[i];
+    const k = 1024;
+    const dm = decimals + 1 || 3;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const i = Math.floor(Math.log(b) / Math.log(k));
+    return `${(b / Math.pow(k, i)).toPrecision(dm)} ${sizes[i]}`; // eslint-disable-line no-restricted-properties
   },
-  parseCommand: function(message) {
-    var tokens = message.split(' ');
+  parseCommand(message) {
+    const tokens = message.split(' ');
     if (!tokens[0].match(/^\//)) {
       return null;
     }
-    var command = {};
-    var cmd = tokens.shift();
-    var m = cmd.match(/\/(\w*)/);
-    if (m.length > 0) {
-      command[m[1]] = tokens;
+    const command = [];
+    const cmd = tokens.shift();
+    const match = cmd.match(/\/(\w*)/);
+    if (match.length > 0) {
+      command[match[1]] = tokens;
     }
     return command;
   },
-  getMessage: function(message) {
+  getMessage(message) {
+    let m = '';
     if (message) {
-      message = message.toString().trim();
+      m = message.toString().trim();
     } else {
-      message = '';
+      m = '';
     }
-    return (message.length > 0 ? message : 'N/A');
+    return (m.length > 0 ? m : 'N/A');
   },
-  formatMessage: function(title, description, fields) {
-    var message = '';
+  formatMessage(title, description, fields) {
+    let message = '';
 
     if (title.length > 0) {
-      message = '<strong>' + title + "</strong>\n";
+      message = `<strong>${title}</strong>\n`;
     }
     if (description.length > 0) {
-      message += '<em>' + description + "</em>\n";
+      message += `<em>${description}</em>\n`;
     }
     if (fields.length > 0) {
-      message += '<pre>' + this.parseFields(fields) + '</pre>';
+      message += `<pre>${this.parseFields(fields)}</pre>`;
     }
 
     return message;
   },
-  parseFields: function(fields) {
-    var data = [];
-    fields.forEach(function(entry) {
+  parseFields(fields) {
+    const data = [];
+    fields.forEach((entry) => {
       if (entry.title && entry.title.length > 0) {
-        data.push(entry.title + ': ' + entry.value);
+        data.push(`${entry.title}: ${entry.value}`);
       }
     });
 
-    return data.join("\n");
-  }
+    return data.join("\n"); // eslint-disable-line quotes
+  },
+  validateIp(ip) {
+    const matcher = /^(?:(?:2[0-4]\d|25[0-5]|1\d{2}|[1-9]?\d)\.){3}(?:2[0-4]\d|25[0-5]|1\d{2}|[1-9]?\d)$/;
+    return matcher.test(ip);
+  },
 };
