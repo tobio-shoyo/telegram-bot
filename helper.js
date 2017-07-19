@@ -1,11 +1,6 @@
 'use strict';
 
 /**
- * Requires
- */
-const moment = require('moment');
-
-/**
  * Helper
  */
 module.exports = {
@@ -13,7 +8,7 @@ module.exports = {
     return string.replace('/\w\S*/g', (str) => str.charAt(0).toUpperCase() + str.substr(1).toLowerCase()); // eslint-disable-line no-useless-escape
   },
   formatNumber(x) {
-    return x.toString().replace('/\B(?=(\d{3})+(?!\d))/g', ','); // eslint-disable-line no-useless-escape
+    return x.toLocaleString('en');
   },
   formatBytes(bytes, decimals) {
     const b = parseInt(bytes, 10);
