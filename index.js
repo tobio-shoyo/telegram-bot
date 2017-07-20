@@ -21,9 +21,9 @@ function sendMessageToTelegram(chatId, message) {
     method: 'POST',
     uri: `https://api.telegram.org/bot${telegramToken}/sendMessage`,
     form: {
-      chat_id: chatId, // eslint-disable-line camelcase
+      chat_id: chatId,
       text: message,
-      parse_mode: 'HTML', // eslint-disable-line camelcase
+      parse_mode: 'HTML',
     },
   });
 }
