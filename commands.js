@@ -52,27 +52,18 @@ module.exports = {
             title: 'Bus',
             value: bus.ServiceNo,
           });
-          fields.push({
-            title: 'Status',
-            value: bus.Status,
-          });
 
           // Bus Arrival Timings
           if (bus.Status !== 'Not In Operation') {
-            const nextBus = bus.NextBus;
-            const subBus = bus.SubsequentBus;
-            const followBus = bus.SubsequentBus3;
+            const nextBus = bus.NextBus || '';
+            const subBus = bus.SubsequentBus || '';
+            const followBus = bus.SubsequentBus3 || '';
 
-            if (nextBus.EstimatedArrival !== '') {
+            if (nextBus !== '') {
               fields.push({
                 title: 'Next Bus',
                 value: `${moment(nextBus.EstimatedArrival).fromNow()} (${nextBus.Load})`,
               });
-            } else if (bus.Status === 'In Operation') {
-              fields.push({
-                title: 'Next Bus',
-                value: 'No Estimate Available',
-              });
             } else {
               fields.push({
                 title: 'Next Bus',
@@ -80,16 +71,11 @@ module.exports = {
               });
             }
 
-            if (subBus.EstimatedArrival !== '') {
+            if (subBus !== '') {
               fields.push({
                 title: 'Subsequent Bus',
                 value: `${moment(subBus.EstimatedArrival).fromNow()} (${subBus.Load})`,
               });
-            } else if (bus.Status === 'In Operation') {
-              fields.push({
-                title: 'Subsequent Bus',
-                value: 'No Estimate Available',
-              });
             } else {
               fields.push({
                 title: 'Subsequent Bus',
@@ -97,15 +83,10 @@ module.exports = {
               });
             }
 
-            if (followBus.EstimatedArrival !== '') {
+            if (followBus !== '') {
               fields.push({
                 title: 'Following Bus',
                 value: `${moment(followBus.EstimatedArrival).fromNow()} (${followBus.Load})`,
-              });
-            } else if (bus.Status === 'In Operation') {
-              fields.push({
-                title: 'Following Bus',
-                value: 'No Estimate Available',
               });
             } else {
               fields.push({
@@ -116,7 +97,7 @@ module.exports = {
           }
         });
 
-        return helper.formatMessage(`Bus Stop ${body.BusStopID}`, '', fields);
+        return helper.formatMessage(`Bus Stop ${body.BusStopCode}`, '', fields);
       }
 
       return 'Bus stop or number is invalid';
