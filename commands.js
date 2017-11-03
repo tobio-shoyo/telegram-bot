@@ -45,6 +45,16 @@ module.exports = {
       json: true,
     }).then((body) => {
       if (body.Services && body.Services.length > 0) {
+        const busLoad = {
+          SEA: 'Seats Available',
+          SDA: 'Standing Available',
+          LSD: 'Limited Standing',
+        };
+        const busType = {
+          SD: 'Single Deck',
+          DD: 'Double Deck',
+          BD: 'Bendy',
+        };
         // Fields
         const fields = [];
         body.Services.forEach((bus) => {
@@ -62,7 +72,7 @@ module.exports = {
             if (nextBus !== '') {
               fields.push({
                 title: 'Next Bus',
-                value: `${moment(nextBus.EstimatedArrival).fromNow()} (${nextBus.Load})`,
+                value: `${moment(nextBus.EstimatedArrival).fromNow()} (${busLoad[nextBus.Load]}, ${busType[nextBus.Type]})`,
               });
             } else {
               fields.push({
@@ -74,7 +84,7 @@ module.exports = {
             if (subBus !== '') {
               fields.push({
                 title: 'Subsequent Bus',
-                value: `${moment(subBus.EstimatedArrival).fromNow()} (${subBus.Load})`,
+                value: `${moment(subBus.EstimatedArrival).fromNow()} (${busLoad[subBus.Load]}, ${busType[subBus.Type]})`,
               });
             } else {
               fields.push({
@@ -86,7 +96,7 @@ module.exports = {
             if (followBus !== '') {
               fields.push({
                 title: 'Following Bus',
-                value: `${moment(followBus.EstimatedArrival).fromNow()} (${followBus.Load})`,
+                value: `${moment(followBus.EstimatedArrival).fromNow()} (${busLoad[followBus.Load]}, ${busType[followBus.Type]})`,
               });
             } else {
               fields.push({
