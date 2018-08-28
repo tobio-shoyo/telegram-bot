@@ -123,14 +123,14 @@ module.exports = {
       json: true,
     }).then((body) => {
       // Variables
-      const northPsi = parseInt(body.item.region[0].record.reading['@attributes'].value, 10);
-      const centralPsi = parseInt(body.item.region[1].record.reading['@attributes'].value, 10);
-      const eastPsi = parseInt(body.item.region[2].record.reading['@attributes'].value, 10);
-      const westPsi = parseInt(body.item.region[3].record.reading['@attributes'].value, 10);
-      const southPsi = parseInt(body.item.region[4].record.reading['@attributes'].value, 10);
+      const northPsi = parseInt(body.items[0].readings.pm25_one_hourly.north, 10);
+      const centralPsi = parseInt(body.items[0].readings.pm25_one_hourly.central, 10);
+      const eastPsi = parseInt(body.items[0].readings.pm25_one_hourly.east, 10);
+      const westPsi = parseInt(body.items[0].readings.pm25_one_hourly.west, 10);
+      const southPsi = parseInt(body.items[0].readings.pm25_one_hourly.south, 10);
       const averagePsi = Math.ceil((northPsi + centralPsi + eastPsi + westPsi + southPsi) / 5);
-      const timestamp = body.item.region[0].record['@attributes'].timestamp;
-      const niceDate = moment(timestamp, 'YYYYMMDDHHmmss');
+      const timestamp = body.items[0].timestamp;
+      const niceDate = moment(timestamp).add(8, 'hours');
 
       // Fields
       const fields = [
@@ -175,17 +175,16 @@ module.exports = {
       json: true,
     }).then((body) => {
       const fields = [];
-      if (body.item.weatherForecast.area &&
-        body.item.weatherForecast.area.length > 0) {
-        body.item.weatherForecast.area.forEach((nowcast) => {
+      if (body.items[0].forecasts && body.items[0].forecasts.length > 0) {
+        body.items[0].forecasts.forEach((nowcast) => {
           fields.push({
-            title: helper.ucWords(nowcast['@attributes'].name),
-            value: helper.getMessage(nowcast['@attributes'].forecast),
+            title: nowcast.area,
+            value: helper.getMessage(nowcast.forecast),
           });
         });
       }
 
-      return helper.formatMessage('Singapore Weather Conditions', `2 hour Forecast. ${body.item.validTime}.`, fields);
+      return helper.formatMessage('Singapore Weather Conditions', `2 hour Forecast. ${moment(body.items[0].update_timestamp).add(8, 'hours').format(config.defaultDateTimeFormat)}.`, fields);
     });
   },
 
