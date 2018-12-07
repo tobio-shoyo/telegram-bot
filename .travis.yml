@@ -1,6 +1,10 @@
 language: node_js
 node_js:
-  - "6.1"
+- node
 before_script:
-  - cp token.sample.js token.js
-  - npm run lint
+- cp token.sample.js token.js
+- npm run lint
+notifications:
+  email: false
+  slack:
+    secure: fhspg8+RsDTCDmUhHfkB+4THOJh/W9LjXTU/tC6Vq5aDqFpulCQ7kTluPp10twY8fKAnj9T900LBZm+CmFUCAS0bYo3NMACmWNmwDtcC46ayFozy3o83/poNnhVJR9WiJh8QFmsMhPsHtufzC7YCBkrh+oskOJl5RsX+fVz0eVoGyVrMsHFMjG2JAZIOjVZvIwDmWVLYTtVLedfkwQsBwJlW4AIXYsg7gd62f+N7hQV6lwgznAe95bkQO4vslRPGu0bkPEF7LHkd4rx7ub4bMix8EEyP/Uo8yuiauSY+pmdvtnUcy/om6x0LjHy5gmU1vFFZkkj0plBiH1ODGLgL6QXjbJg9p0jhAdSsvY++HtdN6keRSuSfInUPERE/4P6BQfGhccjjcTebzC5hIFCkHA4wu9DGSBaZXwYdgvb+j28jRu8wHunBgrrPTXk7TIsuVeLAT274kQsvp3Yc7qhyTxbSkTF6YYJMzj9s8Mx6x8GN6UpU8ZoeDjnkW47PX4Ck7gPZIqscasCBlx6K/ScNMSxMFyknc82PHiz4JN4HiVHkUNrOCuP00map2j0PGN3qQBhQkMUSOmYfofgqld5k6mnkMggheTGapB57Ml1wfW7Aa3U+vllQgrXCHbRbrKB+z2hyenGNQ7iD3QxUeoNXdAGh4nG/LCVqJMn4k+1rvAY=
