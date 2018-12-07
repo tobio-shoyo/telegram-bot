@@ -28,16 +28,16 @@
     }
   },
   "devDependencies": {
-    "chai": "*",
-    "chai-as-promised": "*",
-    "eslint": "^5.0.1",
-    "eslint-config-techinasia-base": "*",
-    "eslint-plugin-import": "^2.13.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^5.9.0",
+    "eslint-config-techinasia-base": "^0.8.0",
+    "eslint-plugin-import": "^2.14.0",
     "mocha": "^5.2.0"
   },
   "dependencies": {
-    "moment": "~> 2.19.3",
-    "request": "^2.87.0",
-    "request-promise": "*"
+    "moment": "^2.22.2",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
   }
 }
