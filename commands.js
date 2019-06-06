@@ -269,10 +269,6 @@ module.exports = {
           value: helper.formatNumber(body.count.twitter),
         },
         {
-          title: 'Google+',
-          value: helper.formatNumber(body.count['google-plus']),
-        },
-        {
           title: 'LinkedIn',
           value: helper.formatNumber(body.count.linkedin),
         },
