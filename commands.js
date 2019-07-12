@@ -269,10 +269,6 @@ module.exports = {
           value: helper.formatNumber(body.count.twitter),
         },
         {
-          title: 'LinkedIn',
-          value: helper.formatNumber(body.count.linkedin),
-        },
-        {
           title: 'Pinterest',
           value: helper.formatNumber(body.count.pinterest),
         },
