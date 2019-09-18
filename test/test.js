@@ -28,13 +28,13 @@ describe('telegram-bot', () => {
     const output = lambda.handler({
       body: {
         message: {
-          text: '/bus 14229',
+          text: '/bus 44591',
         },
       },
     }, context);
 
     output.then((response) => {
-      expect(response).to.contain('Bus Stop 14229');
+      expect(response).to.contain('Bus Stop 44591');
       done();
     }).catch(done);
   }).timeout(timeout);
@@ -43,14 +43,14 @@ describe('telegram-bot', () => {
     const output = lambda.handler({
       body: {
         message: {
-          text: '/bus 14229 61',
+          text: '/bus 30111 991',
         },
       },
     }, context);
 
     output.then((response) => {
-      expect(response).to.contain('Bus Stop 14229');
-      expect(response).to.contain('Bus: 61');
+      expect(response).to.contain('Bus Stop 30111');
+      expect(response).to.contain('Bus: 991');
       done();
     }).catch(done);
   }).timeout(timeout);

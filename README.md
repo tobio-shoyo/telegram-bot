@@ -96,7 +96,10 @@ $ {"ok":true,"result":true,"description":"Webhook was set"}
 ## Commands
 ### Singapore Bus Arrival Timings 
 Usage: ```/bus <busStopNo> <busNo>```  
-Example: ```/bus 1039 61```
+Example: ```/bus 30111 991```
+
+Usage: ```/bus <busStopNo>```  
+Example: ```/bus 44591```
 
 ### Singapore Haze Situation
 Usage: ```/haze```  
