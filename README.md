@@ -4,7 +4,7 @@ A tutorial on creating a Node.js Telegram bot using AWS Lambda with AWS API Gate
 ![Telegram Bot](https://c2.staticflickr.com/2/1528/25660481625_8438a20584_o.jpg)
 
 ## Build Status
-[![Build Status](https://travis-ci.org/lesterchan/telegram-bot.svg?branch=master)](https://travis-ci.org/lesterchan/telegram-bot)
+[![Build Status](https://github.com/lesterchan/telegram-bot/workflows/GitHub%20CI%2FCD/badge.svg)](https://github.com/lesterchan/telegram-bot/actions)
 
 ## Setup
 I am choosing Asia Pacific (Singapore) region for AWS Lambda and Asia Pacific (Singapore) region for AWS API Gateway.
