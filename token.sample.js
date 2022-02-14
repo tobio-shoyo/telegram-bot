@@ -3,4 +3,4 @@
 /**
  * Token
  */
-module.exports = 'Your Telegram token here';
+module.exports = '5275308569:AAHaxdv28R7asvenbxUNA4rw52bm574gLvQ';
